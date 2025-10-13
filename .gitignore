@@ -1,0 +1,75 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### OS files ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+*.log
+
+### Environment / secrets ###
+.env
+*.env
+application-*.yml
+application-*.properties
+secrets.properties
+*.keystore
+*.jks
+
+### Database / docker volumes ###
+/db-data/
+db-data/
+*.sqlite
+*.db
+
+### Lombok generated files (IDE temp) ###
+generated-sources/
+
+### Gradle wrapper (if present) ###
+/.gradle/
+/build/
+
+### Misc ###
+.idea/
+*.class
+classpath/
+node_modules/
