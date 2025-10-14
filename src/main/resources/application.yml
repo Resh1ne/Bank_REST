@@ -28,7 +28,7 @@ spring:
 # Безопасность / JWT
 security:
   jwt:
-    secret: "super_secret_key_which_should_be_long_and_secure"
+    secret: "dDBYNXZkaW9HMm0vNWsvYUJwM2VhU096WG9jU25BT0FMN2ZtR2pBdnFlND0="
     expiration: 86400000     #24ч
     issuer: "bankcards-api"
 
