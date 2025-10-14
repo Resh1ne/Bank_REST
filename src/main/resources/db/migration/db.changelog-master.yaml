@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/migration/db.changelog-001-create-tables.yaml
   - include:
       file: db/migration/db.changelog-002-insert-reference-data.yaml
+  - include:
+      file: db/migration/db.changelog-003-insert-test-data.yaml

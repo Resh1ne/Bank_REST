@@ -1,0 +1,140 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-insert-test-users
+      author: daniil
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "admin"
+              - column:
+                  name: email
+                  value: "admin@example.com"
+              - column:
+                  # Пароль password123, генерация BCrypt.
+                  name: password_hash
+                  value: "$2a$10$hM0zSKW7eexg5u8d1.0m.OhQE22YJRz72pB3M1.5mS.SOdm44o6/G"
+              - column:
+                  name: enabled
+                  valueBoolean: true
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "john.doe"
+              - column:
+                  name: email
+                  value: "john.doe@example.com"
+              - column:
+                  # Пароль password123
+                  name: password_hash
+                  value: "$2a$10$hM0zSKW7eexg5u8d1.0m.OhQE22YJRz72pB3M1.5mS.SOdm44o6/G"
+              - column:
+                  name: enabled
+                  valueBoolean: true
+
+  - changeSet:
+      id: 003-link-users-to-roles
+      author: daniil
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'admin')"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ADMIN')"
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'USER')"
+
+  - changeSet:
+      id: 003-insert-test-cards
+      author: daniil
+      changes:
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "encrypted:1111222233334444"
+              - column:
+                  name: pan_last4
+                  value: "4444"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "12/2028"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: balance
+                  valueNumeric: 1500.75
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "encrypted:5555666677778888"
+              - column:
+                  name: pan_last4
+                  value: "8888"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "10/2027"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: balance
+                  valueNumeric: 350.00
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "encrypted:9999888877776666"
+              - column:
+                  name: pan_last4
+                  value: "6666"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "05/2026"
+              - column:
+                  name: status
+                  value: "BLOCKED"
+              - column:
+                  name: balance
+                  valueNumeric: 0.00
