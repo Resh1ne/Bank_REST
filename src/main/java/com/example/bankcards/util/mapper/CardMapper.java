@@ -15,7 +15,7 @@ public interface CardMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "owner", ignore = true)
-    @Mapping(target = "encryptedPan", ignore = true)
+    @Mapping(target = "pan", ignore = true)
     @Mapping(target = "panLast4", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "balance", ignore = true)
