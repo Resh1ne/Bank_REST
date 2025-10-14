@@ -48,7 +48,7 @@ public class CardServiceImpl implements CardService {
         card.setOwner(owner);
 
         String pan = generateDummyPan();
-        card.setEncryptedPan("encrypted:" + pan);
+        card.setPan("encrypted:" + pan);
         card.setPanLast4(pan.substring(pan.length() - 4));
 
         Card savedCard = cardRepository.save(card);

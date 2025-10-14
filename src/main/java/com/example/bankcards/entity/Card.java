@@ -34,7 +34,7 @@ public class Card {
     private User owner;
 
     @Column(name = "encrypted_pan", nullable = false)
-    private String encryptedPan;
+    private String pan;
 
     @Column(name = "pan_last4", nullable = false, length = 4)
     private String panLast4;
