@@ -31,6 +31,8 @@ security:
     secret: "bXktc3VwZXItc2VjdXJlLWFuZC1sb25nLWVub3VnaC1zZWNyZXQta2V5LWZvci1qd3QtMjU2LWJpdHM="
     expiration: 86400000     #24ч
     issuer: "bankcards-api"
+  encryption:
+    key: "f7aT9pXvE2bQ5sR8uK4yCg3hJ6mN1zWd/L0oVbIq+Nc="
 
 
 # Swagger / OpenAPI

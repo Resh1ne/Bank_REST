@@ -47,9 +47,9 @@ public class CardServiceImpl implements CardService {
         Card card = cardMapper.toEntity(request);
         card.setOwner(owner);
 
-        String pan = generateDummyPan();
-        card.setPan("encrypted:" + pan);
-        card.setPanLast4(pan.substring(pan.length() - 4));
+        String plainPan = generateDummyPan();
+        card.setPan(plainPan);
+        card.setPanLast4(plainPan.substring(plainPan.length() - 4));
 
         Card savedCard = cardRepository.save(card);
         return cardMapper.toDto(savedCard);
