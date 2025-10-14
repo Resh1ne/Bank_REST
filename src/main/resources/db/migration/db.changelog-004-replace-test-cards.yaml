@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-delete-old-test-cards
+      author: daniil
+      changes:
+        - delete:
+            tableName: cards
+            where: owner_id = (SELECT id FROM users WHERE username = 'john.doe')
+
+  - changeSet:
+      id: 004-insert-new-correctly-encrypted-test-cards
+      author: daniil
+      changes:
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "QGybBOsXzguZ0m5Xx4/upQYw6VXDHoONdslrrGU4bH0="
+              - column:
+                  name: pan_last4
+                  value: "4659"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "12/2028"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: balance
+                  valueNumeric: 1500.75
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "eOjC2DQbIzd8aOlUD95EzgYw6VXDHoONdslrrGU4bH0="
+              - column:
+                  name: pan_last4
+                  value: "1430"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "10/2027"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: balance
+                  valueNumeric: 350.00
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: owner_id
+                  valueComputed: "(SELECT id FROM users WHERE username = 'john.doe')"
+              - column:
+                  name: encrypted_pan
+                  value: "p7X5KF5foYmKAWH8qc2WMQYw6VXDHoONdslrrGU4bH0="
+              - column:
+                  name: pan_last4
+                  value: "9323"
+              - column:
+                  name: holder_name
+                  value: "JOHN DOE"
+              - column:
+                  name: expiry_date
+                  value: "05/2026"
+              - column:
+                  name: status
+                  value: "BLOCKED"
+              - column:
+                  name: balance
+                  valueNumeric: 0.00
