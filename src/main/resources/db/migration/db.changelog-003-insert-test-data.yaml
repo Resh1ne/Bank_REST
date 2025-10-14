@@ -15,7 +15,7 @@ databaseChangeLog:
               - column:
                   # Пароль password123, генерация BCrypt.
                   name: password_hash
-                  value: "$2a$10$hM0zSKW7eexg5u8d1.0m.OhQE22YJRz72pB3M1.5mS.SOdm44o6/G"
+                  value: "$2a$10$DO259H8iU5D3VLoH0xCL9uQTHS6.vqcciFwKtZbfFqKKwgmnrJ4da"
               - column:
                   name: enabled
                   valueBoolean: true
@@ -32,7 +32,7 @@ databaseChangeLog:
               - column:
                   # Пароль password123
                   name: password_hash
-                  value: "$2a$10$hM0zSKW7eexg5u8d1.0m.OhQE22YJRz72pB3M1.5mS.SOdm44o6/G"
+                  value: "$2a$10$DO259H8iU5D3VLoH0xCL9uQTHS6.vqcciFwKtZbfFqKKwgmnrJ4da"
               - column:
                   name: enabled
                   valueBoolean: true
