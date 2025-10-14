@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 002
+      id: 002-insert-roles-into-table
       author: daniil
       changes:
         - insert:
