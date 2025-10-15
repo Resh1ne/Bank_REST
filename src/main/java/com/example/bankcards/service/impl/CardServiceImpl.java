@@ -12,6 +12,7 @@ import com.example.bankcards.entity.enums.TransactionStatus;
 import com.example.bankcards.exception.InsufficientFundsException;
 import com.example.bankcards.exception.InvalidOperationException;
 import com.example.bankcards.exception.ResourceNotFoundException;
+import com.example.bankcards.repository.specification.CardSpecification;
 import com.example.bankcards.util.mapper.CardMapper;
 import com.example.bankcards.util.mapper.TransactionMapper;
 import com.example.bankcards.repository.CardRepository;
@@ -21,6 +22,7 @@ import com.example.bankcards.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,14 +58,13 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public Page<CardDto> getCardsByUserId(Long userId, Pageable pageable) {
+    public Page<CardDto> getCardsByUserId(Long userId, CardStatus status, String panLast4, Pageable pageable) {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User with id " + userId + " not found.");
         }
-        User user = new User();
-        user.setId(userId);
+        Specification<Card> spec = CardSpecification.filterBy(userId, status, panLast4);
+        Page<Card> cardsPage = cardRepository.findAll(spec, pageable);
 
-        Page<Card> cardsPage = cardRepository.findByOwner(user, pageable);
         return cardsPage.map(cardMapper::toDto);
     }
 

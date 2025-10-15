@@ -4,6 +4,7 @@ import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.CreateCardRequest;
 import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.dto.TransferRequestDto;
+import com.example.bankcards.entity.enums.CardStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +13,5 @@ public interface CardService {
 
     TransactionDto transferBetweenOwnCards(String username, TransferRequestDto request);
 
-    Page<CardDto> getCardsByUserId(Long userId, Pageable pageable);
+    Page<CardDto> getCardsByUserId(Long userId, CardStatus status, String panLast4, Pageable pageable);
 }
