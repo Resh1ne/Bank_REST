@@ -12,13 +12,13 @@ import com.example.bankcards.entity.enums.TransactionStatus;
 import com.example.bankcards.exception.InsufficientFundsException;
 import com.example.bankcards.exception.InvalidOperationException;
 import com.example.bankcards.exception.ResourceNotFoundException;
-import com.example.bankcards.repository.specification.CardSpecification;
-import com.example.bankcards.util.mapper.CardMapper;
-import com.example.bankcards.util.mapper.TransactionMapper;
 import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.TransactionRepository;
 import com.example.bankcards.repository.UserRepository;
+import com.example.bankcards.repository.specification.CardSpecification;
 import com.example.bankcards.service.CardService;
+import com.example.bankcards.util.mapper.CardMapper;
+import com.example.bankcards.util.mapper.TransactionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -94,6 +94,54 @@ public class CardServiceImpl implements CardService {
         cardRepository.save(fromCard);
         cardRepository.save(toCard);
         return transactionMapper.toDto(transaction);
+    }
+
+    @Override
+    public Page<CardDto> getAllCards(Pageable pageable) {
+        return cardRepository.findAll(pageable).map(cardMapper::toDto);
+    }
+
+    @Override
+    @Transactional
+    public CardDto blockCard(Long cardId) {
+        Card card = findCardById(cardId);
+        card.setStatus(CardStatus.BLOCKED);
+        Card updatedCard = cardRepository.save(card);
+        return cardMapper.toDto(updatedCard);
+    }
+
+    @Override
+    @Transactional
+    public CardDto activateCard(Long cardId) {
+        Card card = findCardById(cardId);
+        card.setStatus(CardStatus.ACTIVE);
+        Card updatedCard = cardRepository.save(card);
+        return cardMapper.toDto(updatedCard);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCard(Long cardId) {
+        if (!cardRepository.existsById(cardId)) {
+            throw new ResourceNotFoundException("Card with id " + cardId + " not found.");
+        }
+        cardRepository.deleteById(cardId);
+    }
+
+    @Override
+    @Transactional
+    public CardDto requestCardBlock(Long cardId, String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found."));
+        Card card = findCardByIdAndUserId(cardId, user.getId());
+        card.setStatus(CardStatus.BLOCKED);
+        Card updatedCard = cardRepository.save(card);
+        return cardMapper.toDto(updatedCard);
+    }
+
+    private Card findCardById(Long cardId) {
+        return cardRepository.findById(cardId)
+                .orElseThrow(() -> new ResourceNotFoundException("Card with id " + cardId + " not found."));
     }
 
     private Card findCardByIdAndUserId(Long cardId, Long userId) {

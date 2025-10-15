@@ -14,4 +14,14 @@ public interface CardService {
     TransactionDto transferBetweenOwnCards(String username, TransferRequestDto request);
 
     Page<CardDto> getCardsByUserId(Long userId, CardStatus status, String panLast4, Pageable pageable);
+
+    Page<CardDto> getAllCards(Pageable pageable);
+
+    CardDto blockCard(Long cardId);
+
+    CardDto activateCard(Long cardId);
+
+    void deleteCard(Long cardId);
+
+    CardDto requestCardBlock(Long cardId, String username);
 }
