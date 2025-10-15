@@ -3,6 +3,12 @@ package com.example.bankcards.controller;
 import com.example.bankcards.dto.CardDto;
 import com.example.bankcards.dto.CreateCardRequest;
 import com.example.bankcards.service.CardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,40 +25,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/admin/cards")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
+@Tag(name = "2. Administration", description = "Endpoints for administrators to manage cards and users")
+@SecurityRequirement(name = "bearerAuth")
 public class AdminCardController {
 
     private final CardService cardService;
 
-    @PostMapping
+    @Operation(summary = "Create a new card for any user", description = "Requires ADMIN role.")
+    @ApiResponse(responseCode = "201", description = "Card created successfully", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Owner user not found", content = @Content)
+    @PostMapping("/cards")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CardDto> createCard(@Valid @RequestBody CreateCardRequest createCardRequest) {
         CardDto newCard = cardService.createCard(createCardRequest);
         return new ResponseEntity<>(newCard, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @Operation(summary = "Get a paginated list of all cards", description = "Retrieves all cards in the system. Requires ADMIN role.")
+    @GetMapping("/cards")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<CardDto>> getAllCards(Pageable pageable) {
         return ResponseEntity.ok(cardService.getAllCards(pageable));
     }
 
-    @PostMapping("/{cardId}/block")
+    @Operation(summary = "Block a card by ID", description = "Requires ADMIN role.")
+    @ApiResponse(responseCode = "404", description = "Card not found", content = @Content)
+    @PostMapping("/cards/{cardId}/block")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CardDto> blockCard(@PathVariable Long cardId) {
+    public ResponseEntity<CardDto> blockCard(@Parameter(description = "ID of the card to be blocked") @PathVariable Long cardId) {
         return ResponseEntity.ok(cardService.blockCard(cardId));
     }
 
-    @PostMapping("/{cardId}/activate")
+    @Operation(summary = "Activate a card by ID", description = "Requires ADMIN role.")
+    @ApiResponse(responseCode = "404", description = "Card not found", content = @Content)
+    @PostMapping("/cards/{cardId}/activate")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CardDto> activateCard(@PathVariable Long cardId) {
+    public ResponseEntity<CardDto> activateCard(@Parameter(description = "ID of the card to be activated") @PathVariable Long cardId) {
         return ResponseEntity.ok(cardService.activateCard(cardId));
     }
 
-    @DeleteMapping("/{cardId}")
+    @Operation(summary = "Delete a card by ID", description = "Requires ADMIN role.")
+    @ApiResponse(responseCode = "204", description = "Card deleted successfully", content = @Content)
+    @ApiResponse(responseCode = "404", description = "Card not found", content = @Content)
+    @DeleteMapping("/cards/{cardId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteCard(@PathVariable Long cardId) {
+    public ResponseEntity<Void> deleteCard(@Parameter(description = "ID of the card to be deleted") @PathVariable Long cardId) {
         cardService.deleteCard(cardId);
         return ResponseEntity.noContent().build();
     }
