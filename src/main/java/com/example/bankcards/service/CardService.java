@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface CardService {
     CardDto createCard(CreateCardRequest request);
 
-    TransactionDto transferBetweenOwnCards(Long userId, TransferRequestDto request);
+    TransactionDto transferBetweenOwnCards(String username, TransferRequestDto request);
 
     Page<CardDto> getCardsByUserId(Long userId, Pageable pageable);
 }

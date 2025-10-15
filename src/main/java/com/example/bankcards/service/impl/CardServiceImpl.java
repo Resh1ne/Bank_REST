@@ -69,7 +69,11 @@ public class CardServiceImpl implements CardService {
 
     @Override
     @Transactional
-    public TransactionDto transferBetweenOwnCards(Long userId, TransferRequestDto request) {
+    public TransactionDto transferBetweenOwnCards(String username, TransferRequestDto request) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User with username " + username + " not found."));
+        Long userId = user.getId();
+
         if (Objects.equals(request.getFromCardId(), request.getToCardId())) {
             throw new InvalidOperationException("Source and destination cards cannot be the same.");
         }
